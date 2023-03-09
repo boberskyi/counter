@@ -1,17 +1,8 @@
 import {MinMax} from "./MinMax/MinMax";
 import {SetSettings} from "./SetSettings/SetSettings";
 import {StyledCounterLeft} from "./CounterLeftStyled";
+import {CounterLeftPropsType} from "./CounterLeftTypes";
 
-type CounterLeftPropsType = {
-  maxValue: number
-  minValue: number
-  changeMaxValue: (max:number) => void
-  changeMinValue: (min:number) => void
-  btnSetStatus: boolean
-  addLocalStorage: () => void
-  minMaxInputStatus: 'min' | 'max' | ''
-  changeMinMaxInputStatus: (status: 'min' | 'max' | '') => void
-}
 
 export const CounterLeft:React.FC<CounterLeftPropsType> = (props) => {
   return (
