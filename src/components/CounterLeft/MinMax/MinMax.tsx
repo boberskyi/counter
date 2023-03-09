@@ -1,16 +1,9 @@
 import {StyledMinMax, StyledMinMaxLabel, StyledMinMaxLabelHeading} from "./MinMaxStyled";
 import {StyledMinMaxInput} from "./MinMaxInput/MinMaxInputStyled";
+import {FC} from "react";
+import {MinMaxPropsType} from "./MinMaxTypes";
 
-type MinMaxPropsType = {
-  maxValue: number
-  minValue: number
-  changeMaxValue: (max:number) => void
-  changeMinValue: (min:number) => void
-  minMaxInputStatus: 'min' | 'max' | ''
-  changeMinMaxInputStatus: (status: 'min' | 'max' | '') => void
-}
-
-export const MinMax:React.FC<MinMaxPropsType> = (props) => {
+export const MinMax:FC<MinMaxPropsType> = (props) => {
   const onChangeMinHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.currentTarget.valueAsNumber;
     props.changeMinValue(value);
