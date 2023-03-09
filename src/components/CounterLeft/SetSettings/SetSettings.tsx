@@ -1,12 +1,9 @@
 import {Btn} from "../../Btn/Btn";
 import {StyledSetSettings} from "./SetSettingsStyled";
+import {FC} from "react";
+import {SetSettingsPropsType} from "./SetSettingsTypes";
 
-type SetSettingsPropsType = {
-  btnSetStatus: boolean
-  addLocalStorage: () => void
-}
-
-export const SetSettings:React.FC<SetSettingsPropsType> = (props) => {
+export const SetSettings:FC<SetSettingsPropsType> = (props) => {
   const btnSetHandler = () => props.addLocalStorage();
 
   return (
