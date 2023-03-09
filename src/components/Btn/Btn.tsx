@@ -1,11 +1,6 @@
 import { StyledBtn } from './BtnStyled';
 import {FC} from "react";
-
-type BtnPropsType = {
-  children: string
-  active?: boolean
-  onClick?: () => void
-}
+import {BtnPropsType} from "./BtnTypes";
 
 export const Btn:FC<BtnPropsType> = (props) => {
   return (
