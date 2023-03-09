@@ -1,5 +1,5 @@
 export type BtnPropsType = {
-  children: string
+  children: React.ReactNode
   active?: boolean
   onClick?: () => void
 }
