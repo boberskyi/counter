@@ -5,9 +5,16 @@ import {CounterRight} from "./CounterRight/CounterRight";
 
 export const HW = () => {
   const [result, setResult] = useState<number | string>("enter values and press 'set'");
-  const [maxValue, setMaxValue] = useState<number>(localStorage.getItem('maxValue') ? JSON.parse(localStorage.getItem('maxValue') as string) : 0);
-  const [minValue, setMinValue] = useState<number>(localStorage.getItem('minValue') ? JSON.parse(localStorage.getItem('minValue') as string) : 0);
+  const maxValueLC = localStorage.getItem('maxValue');
+  const minValueLC = localStorage.getItem('minValue');
+  const [maxValue, setMaxValue] = useState<number>(maxValueLC ? JSON.parse(maxValueLC) : 0);
+  const [minValue, setMinValue] = useState<number>(minValueLC ? JSON.parse(minValueLC) : 0);
   const [btnSetStatus, setBtnSetStatus] = useState<boolean>(false);
+  const [minMaxInputStatus, setMinMaxInputStatus] = useState<'min' | 'max' | ''>('');
+
+
+  const changeMinMaxInputStatus = (status: 'min' | 'max' | '') => setMinMaxInputStatus(status);
+
 
   const addLocalStorage = () => {
     localStorage.setItem('maxValue', JSON.stringify(maxValue));
@@ -55,6 +62,8 @@ export const HW = () => {
         changeMinValue={changeMinValue}
         btnSetStatus={btnSetStatus}
         addLocalStorage={addLocalStorage}
+        minMaxInputStatus={minMaxInputStatus}
+        changeMinMaxInputStatus={changeMinMaxInputStatus}
       />
       <CounterRight addInc={addInc}
                     resetBtnStatus={resetBtnStatus}

@@ -9,6 +9,8 @@ type CounterLeftPropsType = {
   changeMinValue: (min:number) => void
   btnSetStatus: boolean
   addLocalStorage: () => void
+  minMaxInputStatus: 'min' | 'max' | ''
+  changeMinMaxInputStatus: (status: 'min' | 'max' | '') => void
 }
 
 export const CounterLeft:React.FC<CounterLeftPropsType> = (props) => {
@@ -19,6 +21,8 @@ export const CounterLeft:React.FC<CounterLeftPropsType> = (props) => {
         minValue={props.minValue}
         changeMaxValue={props.changeMaxValue}
         changeMinValue={props.changeMinValue}
+        minMaxInputStatus={props.minMaxInputStatus}
+        changeMinMaxInputStatus={props.changeMinMaxInputStatus}
       />
       <SetSettings
         btnSetStatus={props.btnSetStatus}
