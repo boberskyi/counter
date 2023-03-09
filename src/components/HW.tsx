@@ -25,23 +25,21 @@ export const HW = () => {
   const valStatus = (+result === maxValue) || (maxValue === minValue);
 
   const resetBtnStatus = +result > 0;
-  useEffect(()=> {
-    if(maxValue <= minValue) {
+  useEffect(() => {
+    if (maxValue <= minValue) {
       setResult('Incorrect value!');
-      setBtnSetStatus(false);
     }
-    if(maxValue === 0 && minValue === 0) {
+    if (maxValue === 0 && minValue === 0) {
       setResult("enter values and press 'set'");
-      setBtnSetStatus(false);
     }
-    if(maxValue === minValue) {
+    if (maxValue === minValue) {
       setResult('Incorrect value!');
-      setBtnSetStatus(false);
-    }
-    else {
+    } else {
       setResult(minValue);
       setBtnSetStatus(true);
+      return;
     }
+    setBtnSetStatus(false);
   }, [maxValue, minValue]);
 
 
@@ -49,9 +47,9 @@ export const HW = () => {
 
   const resetHandler = () => setResult(minValue);
 
-  const changeMaxValue = (max:number) => setMaxValue(max);
+  const changeMaxValue = (max: number) => setMaxValue(max);
 
-  const changeMinValue = (min:number) => setMinValue(min);
+  const changeMinValue = (min: number) => setMinValue(min);
 
   return (
     <StyledMain>
@@ -65,12 +63,13 @@ export const HW = () => {
         minMaxInputStatus={minMaxInputStatus}
         changeMinMaxInputStatus={changeMinMaxInputStatus}
       />
-      <CounterRight addInc={addInc}
-                    resetBtnStatus={resetBtnStatus}
-                    resetHandler={resetHandler}
-                    incStatus={valStatus}
-                    result={result}
-                    valStatus={valStatus}
+      <CounterRight
+        addInc={addInc}
+        resetBtnStatus={resetBtnStatus}
+        resetHandler={resetHandler}
+        incStatus={valStatus}
+        result={result}
+        valStatus={valStatus}
       />
     </StyledMain>
   )
