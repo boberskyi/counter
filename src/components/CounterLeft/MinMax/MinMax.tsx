@@ -1,5 +1,4 @@
-import {StyledMinMax, StyledMinMaxLabel, StyledMinMaxLabelHeading} from "./MinMaxStyled";
-import {StyledMinMaxInput} from "./MinMaxInput/MinMaxInputStyled";
+import {StyledMinMax, StyledMinMaxInput, StyledMinMaxLabel, StyledMinMaxLabelHeading} from "./MinMaxStyled";
 import {FC} from "react";
 import {MinMaxPropsType} from "./MinMaxTypes";
 
