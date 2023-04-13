@@ -34,6 +34,9 @@ export const HW = () => {
     }
     if (maxValue === minValue) {
       setResult('Incorrect value!');
+    }
+    if (isNaN(maxValue) || isNaN(minValue)) {
+      setResult('Incorrect value!');
     } else {
       setResult(minValue);
       setBtnSetStatus(true);
