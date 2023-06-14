@@ -4,12 +4,12 @@ import { StyledCounterRight } from "./CounterRightStyled";
 import {CounterRightPropsType} from "./CounterRightTypes";
 import {StyledResult} from "./Result/ResultInputStyled";
 
-
 export const CounterRight:React.FC<CounterRightPropsType> = (props) => {
+  console.log('Counter right render');
   return (
     <StyledCounterRight>
       <StyledResult redTxt={props.valStatus}>{props.result}</StyledResult>
-      <Fieldset addInc={props.addInc}
+      <FieldsetMemo addInc={props.addInc}
                 resetBtnStatus={props.resetBtnStatus}
                 resetHandler={props.resetHandler}
                 incStatus={props.valStatus}
@@ -17,3 +17,5 @@ export const CounterRight:React.FC<CounterRightPropsType> = (props) => {
     </StyledCounterRight>
   )
 }
+
+const FieldsetMemo = React.memo(Fieldset);

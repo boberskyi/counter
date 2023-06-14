@@ -2,12 +2,13 @@ import {MinMax} from "./MinMax/MinMax";
 import {SetSettings} from "./SetSettings/SetSettings";
 import {StyledCounterLeft} from "./CounterLeftStyled";
 import {CounterLeftPropsType} from "./CounterLeftTypes";
+import React from "react";
 
 
 export const CounterLeft:React.FC<CounterLeftPropsType> = (props) => {
   return (
     <StyledCounterLeft>
-      <MinMax
+      <MinMaxMemo
         maxValue={props.maxValue}
         minValue={props.minValue}
         changeMaxValue={props.changeMaxValue}
@@ -15,10 +16,13 @@ export const CounterLeft:React.FC<CounterLeftPropsType> = (props) => {
         minMaxInputStatus={props.minMaxInputStatus}
         changeMinMaxInputStatus={props.changeMinMaxInputStatus}
       />
-      <SetSettings
+      <SetSettingsMemo
         btnSetStatus={props.btnSetStatus}
         addLocalStorage={props.addLocalStorage}
       />
     </StyledCounterLeft>
   )
 }
+
+const MinMaxMemo = React.memo(MinMax);
+const SetSettingsMemo = React.memo(SetSettings);

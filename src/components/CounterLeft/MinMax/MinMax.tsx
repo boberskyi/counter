@@ -3,6 +3,8 @@ import {FC} from "react";
 import {MinMaxPropsType} from "./MinMaxTypes";
 
 export const MinMax:FC<MinMaxPropsType> = (props) => {
+  console.log('MinMax render');
+
   const onChangeMinHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.currentTarget.valueAsNumber;
     props.changeMinValue(value);
