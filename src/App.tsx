@@ -27,6 +27,18 @@ const App = () => {
     minMaxInputStatus: '',
   });
 
+  useEffect(() => {
+    const storedMaxValue = localStorage.getItem('maxValue');
+    const storedMinValue = localStorage.getItem('minValue');
+
+    if (storedMaxValue && storedMinValue) {
+      const maxValue = JSON.parse(storedMaxValue);
+      const minValue = JSON.parse(storedMinValue);
+      dispatchInitialState(SetMaxValueAC(maxValue));
+      dispatchInitialState(SetMinValueAC(minValue));
+    }
+  }, []);
+
 
   const changeMinMaxInputStatus = (status: 'min' | 'max' | '') =>  dispatchInitialState(SetMinMaxInputStatusAC(status));
   const addLocalStorage = () => {
