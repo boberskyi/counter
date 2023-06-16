@@ -1,8 +1,15 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useReducer, useState} from 'react';
 import './App.css';
 import styled from "styled-components";
 import {CounterLeft} from "./components/CounterLeft/CounterLeft";
 import {CounterRight} from "./components/CounterRight/CounterRight";
+import {
+  counterReducer,
+  SetBtnStatusAC,
+  SetMaxValueAC,
+  SetMinMaxInputStatusAC, SetMinValueAC,
+  SetResultAC
+} from "./state/counter-reducer";
 
 export type initialStateType = {
   result: number | string,
@@ -12,66 +19,59 @@ export type initialStateType = {
   minMaxInputStatus: 'min' | 'max' | ''
 }
 const App = () => {
-  const initialState:initialStateType = {
+  const [initialState, dispatchInitialState] = useReducer(counterReducer,{
     result: "enter values and press 'set'",
     maxValue: 0,
     minValue: 0,
     btnSetStatus: false,
     minMaxInputStatus: '',
-  };
-
-  const [result, setResult] = useState<number | string>("enter values and press 'set'");
-  const maxValueLC = localStorage.getItem('maxValue');
-  const minValueLC = localStorage.getItem('minValue');
-  const [maxValue, setMaxValue] = useState<number>(maxValueLC ? JSON.parse(maxValueLC) : 0);
-  const [minValue, setMinValue] = useState<number>(minValueLC ? JSON.parse(minValueLC) : 0);
-  const [btnSetStatus, setBtnSetStatus] = useState<boolean>(false);
-  const [minMaxInputStatus, setMinMaxInputStatus] = useState<'min' | 'max' | ''>('');
+  });
 
 
-  const changeMinMaxInputStatus = (status: 'min' | 'max' | '') => setMinMaxInputStatus(status);
+  const changeMinMaxInputStatus = (status: 'min' | 'max' | '') =>  dispatchInitialState(SetMinMaxInputStatusAC(status));
   const addLocalStorage = () => {
-    localStorage.setItem('maxValue', JSON.stringify(maxValue));
-    localStorage.setItem('minValue', JSON.stringify(minValue));
-    setBtnSetStatus(false);
-  }
-  const valStatus = (+result === maxValue) || (maxValue === minValue);
+    localStorage.setItem('maxValue', JSON.stringify(initialState.maxValue));
+    localStorage.setItem('minValue', JSON.stringify(initialState.minValue));
 
-  const resetBtnStatus = +result > 0;
+    dispatchInitialState(SetBtnStatusAC(false))
+  }
+  const valStatus = (+initialState.result === initialState.maxValue) || (initialState.maxValue === initialState.minValue);
+
+  const resetBtnStatus = +initialState.result > 0;
   useEffect(() => {
-    if (maxValue <= minValue) {
-      setResult('Incorrect value!');
+    if (initialState.maxValue <= initialState.minValue) {
+      dispatchInitialState(SetResultAC('Incorrect value!'));
     }
-    if (maxValue === 0 && minValue === 0) {
-      setResult("enter values and press 'set'");
+    if (initialState.maxValue === 0 && initialState.minValue === 0) {
+
     }
-    if (maxValue === minValue) {
-      setResult('Incorrect value!');
+    if (initialState.maxValue === initialState.minValue) {
+      dispatchInitialState(SetResultAC('Incorrect value!'));
     } else {
-      setResult(minValue);
-      setBtnSetStatus(true);
+      dispatchInitialState(SetResultAC(initialState.minValue));
+      dispatchInitialState(SetBtnStatusAC(true))
       return;
     }
-    setBtnSetStatus(false);
-  }, [maxValue, minValue]);
+    dispatchInitialState(SetBtnStatusAC(false))
+  }, [initialState.maxValue, initialState.minValue]);
 
 
-  const addInc = () => setResult(+result + 1);
-  const resetHandler = () => setResult(minValue);
-  const changeMaxValue = (max: number) => setMaxValue(max);
-  const changeMinValue = (min: number) => setMinValue(min);
+  const addInc = () => dispatchInitialState(SetResultAC(+initialState.result +1));
+  const resetHandler = () => dispatchInitialState(SetResultAC(initialState.minValue));
+  const changeMaxValue = (max: number) => dispatchInitialState(SetMaxValueAC(max));
+  const changeMinValue = (min: number) => dispatchInitialState(SetMinValueAC(min));
 
   return (
     <div className="App">
       <StyledMain>
         <CounterLeftMemo
-          minValue={minValue}
-          maxValue={maxValue}
+          minValue={initialState.minValue}
+          maxValue={initialState.maxValue}
           changeMaxValue={changeMaxValue}
           changeMinValue={changeMinValue}
-          btnSetStatus={btnSetStatus}
+          btnSetStatus={initialState.btnSetStatus}
           addLocalStorage={addLocalStorage}
-          minMaxInputStatus={minMaxInputStatus}
+          minMaxInputStatus={initialState.minMaxInputStatus}
           changeMinMaxInputStatus={changeMinMaxInputStatus}
         />
         <CounterRightMemo
@@ -79,7 +79,7 @@ const App = () => {
           resetBtnStatus={resetBtnStatus}
           resetHandler={resetHandler}
           incStatus={valStatus}
-          result={result}
+          result={initialState.result}
           valStatus={valStatus}
         />
       </StyledMain>
