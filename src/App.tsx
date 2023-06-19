@@ -10,6 +10,8 @@ import {
   SetMinMaxInputStatusAC, SetMinValueAC,
   SetResultAC
 } from "./state/counter-reducer";
+import {useDispatch, useSelector} from "react-redux";
+import {AppRootType} from "./state/store";
 
 export type initialStateType = {
   result: number | string,
@@ -19,13 +21,7 @@ export type initialStateType = {
   minMaxInputStatus: 'min' | 'max' | ''
 }
 const App = () => {
-  const [initialState, dispatchInitialState] = useReducer(counterReducer,{
-    result: "enter values and press 'set'",
-    maxValue: 0,
-    minValue: 0,
-    btnSetStatus: false,
-    minMaxInputStatus: '',
-  });
+  const initialState = useSelector<AppRootType, initialStateType>(state => state.counter);
 
   useEffect(() => {
     const storedMaxValue = localStorage.getItem('maxValue');
@@ -34,45 +30,47 @@ const App = () => {
     if (storedMaxValue && storedMinValue) {
       const maxValue = JSON.parse(storedMaxValue);
       const minValue = JSON.parse(storedMinValue);
-      dispatchInitialState(SetMaxValueAC(maxValue));
-      dispatchInitialState(SetMinValueAC(minValue));
+      dispatch(SetMaxValueAC(maxValue));
+      dispatch(SetMinValueAC(minValue));
     }
   }, []);
 
 
-  const changeMinMaxInputStatus = (status: 'min' | 'max' | '') =>  dispatchInitialState(SetMinMaxInputStatusAC(status));
+  const changeMinMaxInputStatus = (status: 'min' | 'max' | '') =>  dispatch(SetMinMaxInputStatusAC(status));
   const addLocalStorage = () => {
     localStorage.setItem('maxValue', JSON.stringify(initialState.maxValue));
     localStorage.setItem('minValue', JSON.stringify(initialState.minValue));
 
-    dispatchInitialState(SetBtnStatusAC(false))
+    dispatch(SetBtnStatusAC(false))
   }
   const valStatus = (+initialState.result === initialState.maxValue) || (initialState.maxValue === initialState.minValue);
 
   const resetBtnStatus = +initialState.result > 0;
   useEffect(() => {
     if (initialState.maxValue <= initialState.minValue) {
-      dispatchInitialState(SetResultAC('Incorrect value!'));
+      dispatch(SetResultAC('Incorrect value!'));
     }
     if (initialState.maxValue === 0 && initialState.minValue === 0) {
 
     }
     if (initialState.maxValue === initialState.minValue) {
-      dispatchInitialState(SetResultAC('Incorrect value!'));
+      dispatch(SetResultAC('Incorrect value!'));
     } else {
-      dispatchInitialState(SetResultAC(initialState.minValue));
-      dispatchInitialState(SetBtnStatusAC(true))
+      dispatch(SetResultAC(initialState.minValue));
+      dispatch(SetBtnStatusAC(true))
       return;
     }
-    dispatchInitialState(SetBtnStatusAC(false))
+    dispatch(SetBtnStatusAC(false))
   }, [initialState.maxValue, initialState.minValue]);
 
 
-  const addInc = () => dispatchInitialState(SetResultAC(+initialState.result +1));
-  const resetHandler = () => dispatchInitialState(SetResultAC(initialState.minValue));
-  const changeMaxValue = (max: number) => dispatchInitialState(SetMaxValueAC(max));
-  const changeMinValue = (min: number) => dispatchInitialState(SetMinValueAC(min));
+  const addInc = () => dispatch(SetResultAC(+initialState.result +1));
+  const resetHandler = () => dispatch(SetResultAC(initialState.minValue));
+  const changeMaxValue = (max: number) => dispatch(SetMaxValueAC(max));
+  const changeMinValue = (min: number) => dispatch(SetMinValueAC(min));
 
+
+  const dispatch = useDispatch()
   return (
     <div className="App">
       <StyledMain>

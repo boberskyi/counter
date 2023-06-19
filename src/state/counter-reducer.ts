@@ -8,8 +8,15 @@ type SetMinMaxInputStatusACType = ReturnType<typeof SetMinMaxInputStatusAC>;
 
 export type counterReducerTypes = SetResultACType | SetMaxValueACType | SetMinValueACType | SetBtnStatusACType | SetMinMaxInputStatusACType;
 
+const initialState:initialStateType = {
+    result: "enter values and press 'set'",
+    maxValue: 0,
+    minValue: 0,
+    btnSetStatus: false,
+    minMaxInputStatus: '',
+}
 
-export const counterReducer = (state:initialStateType, action:counterReducerTypes):initialStateType => {
+export const counterReducer = (state:initialStateType = initialState, action:counterReducerTypes):initialStateType => {
     switch (action.type) {
         case 'SET_RESULT':
             return { ...state, result: action.payload.result };
@@ -21,8 +28,7 @@ export const counterReducer = (state:initialStateType, action:counterReducerType
             return { ...state, btnSetStatus: action.payload.value };
         case 'SET_MIN_MAX_INPUT_STATUS':
             return { ...state, minMaxInputStatus: action.payload.status };
-        default:
-            return state;
+        default: return state;
     }
 }
 
